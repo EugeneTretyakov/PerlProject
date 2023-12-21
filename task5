@@ -21,3 +21,4 @@ my @unsorted_arr = (12, 2, 19, 1, 17);
 my @sorted_arr = bubble_sort(@unsorted_arr);
 print "Неотсортированный массив: @unsorted_arr\n";
 print "Отсортированный массив: @sorted_arr\n";
+
