@@ -1,1 +1,23 @@
+#!/usr/bin/perl
+use strict;
+use warnings FATAL => 'all';
 
+sub bubble_sort {
+    my @arr = @_;
+    my $n = scalar(@arr);
+    for (my $i = 0; $i < $n-1; $i++) {
+        for (my $j = 0; $j < $n-$i-1; $j++) {
+            if ($arr[$j] > $arr[$j+1]) {
+                # Swap прям тут, без отдельного метода;
+                my $temp = $arr[$j];
+                $arr[$j] = $arr[$j+1];
+                $arr[$j+1] = $temp;
+            }
+        }
+    }
+    return @arr;
+}
+my @unsorted_arr = (12, 2, 19, 1, 17);
+my @sorted_arr = bubble_sort(@unsorted_arr);
+print "Неотсортированный массив: @unsorted_arr\n";
+print "Отсортированный массив: @sorted_arr\n";
