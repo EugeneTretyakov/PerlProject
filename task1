@@ -1,1 +1,26 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+# обьявил массив пользователей
+my @users_list = ("Alex", "John", "Sonya");
+print "Hello!\n";
+print "What is your name?\n";
+# Получаем имя пользователя из аргументов командной строки
+my $user_name = <stdin>;
+chomp $user_name;
+# Инициализируем переменную для проверки существования пользователя
+my $find = 0;
 
+for my $user (@users_list) {
+    if ($user eq $user_name) {
+        $find = 1;
+        last;
+    }
+}
+# Вывод сообщений после цикла
+if ($find == 1) {
+    print "Добро пожаловать, $user_name!\n";
+}
+else {
+    print "Ты кто такой, $user_name?!\n";
+}
