@@ -1,1 +1,19 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+#hash вместо массива
+my %users_prms = (
+    'Alex'  => '1234',
+    'John'  => '456',
+    'Sonya' => '789',
+);
 
+my $user_name = $ENV{user_name};
+my $user_password = $ENV{user_password};
+
+if (exists $users_prms{$user_name} && $users_prms{$user_name} eq $user_password) {
+    print "Добро пожаловать '$user_name'!\n";
+    print "Твой пароль $user_password.\n";
+} else {
+    print "Неверный логин или пароль.\n";
+}
