@@ -1,1 +1,40 @@
+#!/usr/bin/perl
+use strict;
+use warnings FATAL => 'all';
 
+sub _validate {
+    my ($user_name, $user_password) = @_;
+
+    my %users_prms = (
+        'Alex'  => '1234',
+        'John'  => '456',
+        'Sonya' => '789',
+    );
+
+    if (exists $users_prms{$user_name} && $users_prms{$user_name} eq $user_password) {
+        return 0; #прошел проверку
+    }
+    else {
+        return -1; #пользователь не прошел проверку
+    }
+}
+
+my $user_name = $ENV{"user_name"};
+my $user_password = $ENV{"user_password"};
+
+if (!$user_name) {
+    die "Не указано имя пользователя";
+}
+
+if (!$user_password) {
+    die "Не указан пароль";
+}
+
+my $result = _validate($user_name, $user_password);
+print $result;
+if ($result == 0) {
+    print "Пользователь прошел проверку\n";
+}
+else {
+    print "Пользователь не прошел проверку\n";
+}
