@@ -1,1 +1,24 @@
+use strict;
+use warnings;
 
+print "Cкорость решения задач улиткой в день (a) ";
+my $a = <stdin>;
+print "Cкорость прилетающих в бэклог новых задач (b) ";
+my $b = <stdin>;
+print "Разгребание технического долга в N задач ";
+my $n = <stdin>;
+my $sprint_days = 10;
+
+# Рассчитываем количество задач, которые Улиточка может выполнить за один спринт
+my $resolve_per_sprint = $a * $sprint_days;
+
+# Рассчитываем количество задач, которые поступят в бэклог за один спринт
+my $added_tasks_per_sprint = $b * $sprint_days;
+my $finish = $resolve_per_sprint > $added_tasks_per_sprint;
+
+# Рассчитываем количество спринтов, необходимых для разгребания всего технического долга
+# использовал тернарный оператор
+my $sprints_needed = $finish ? int( ( $n - 1 ) / $resolve_per_sprint / $added_tasks_per_sprint ) + 1 : 0;
+
+# Выводим соответствующее сообщение
+print $finish ? "Справится за $sprints_needed спринт\n" : "Не справится\n";
