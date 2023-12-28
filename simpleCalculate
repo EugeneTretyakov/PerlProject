@@ -1,1 +1,30 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
 
+print "Введите первое значение: ";
+my $value1 = <STDIN>;
+chomp $value1;
+
+print "Введите действие (+, -, *, /): ";
+my $operator = <STDIN>;
+chomp $operator;
+
+print "Введите второе значение: ";
+my $value2 = <STDIN>;
+chomp $value2;
+
+my $result;
+if ($operator eq '+') {
+    $result = $value1 + $value2;
+} elsif ($operator eq '-') {
+    $result = $value1 - $value2;
+} elsif ($operator eq '*') {
+    $result = $value1 * $value2;
+} elsif ($operator eq '/') {
+    $result = $value1 / $value2;
+} else {
+    die "тут должен быть знак + - / * ";
+}
+
+print "Результат: $value1 $operator $value2 = $result\n";
