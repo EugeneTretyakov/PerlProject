@@ -1,1 +1,44 @@
-с
+#!/usr/bin/perl
+use strict;
+use warnings;
+my $result;
+my $total = 0;
+while (1) {
+    print "Введите выражение в одну строчку (для окончания введите '='): ";
+    my $expression = <STDIN>;
+    chomp $expression;
+    if ($expression eq '=') {
+        last;
+    }
+    my @array = split(/\s*([-+*\/])\s*/, $expression);
+    $result = shift @array;
+
+    while (@array) {
+        $result;
+        my $operator = shift @array;
+        my $next_num = shift @array; # Следующее число
+        if ($operator eq '+') {
+            $result += $next_num;
+        }
+        elsif ($operator eq '-') {
+            $result -= $next_num;
+        }
+        elsif ($operator eq '*') {
+            $result *= $next_num;
+        }
+        elsif ($operator eq '/') {
+            if ($next_num == 0) {
+                print "На ноль делить нельзя\n";
+                $result = 0;
+            }
+            else {
+                $result /= $next_num;}
+        }
+        else {
+            print "тут должен быть знак + - / * ";
+        }
+    }
+    $total += $result;
+    print "Промежуточный результат $result: \n";
+}
+print "Финальный результат: $total\n";
