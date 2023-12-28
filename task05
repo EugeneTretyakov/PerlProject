@@ -1,1 +1,95 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
 
+my $dir = '/Users/evgenijtretakov/PerlProject/tasks/task05/newsletter/';
+my $obscene_dictionary = 'obsceneDictionary';
+my $file_path = "/Users/evgenijtretakov/PerlProject/tasks/task05/newsletter/obsceneDictionary";
+my $input_file_path = "/Users/evgenijtretakov/PerlProject/tasks/task05/newsletter/esenin.txt";
+
+# #функция для чтения файла конфигурации, возвращает массив, ее передадим в параметры остальным методам
+
+sub _read_config {
+    my ( $filename ) = @_;
+
+    if ( open my $fh, '<', $filename ) {
+        my @lines = <$fh>;
+        close $fh;
+        return @lines;
+    } else {
+        print "Не удалось считать конфигурацию с файла: '$filename'";
+        exit;
+    }
+}
+
+#Метод проверки наличия файла в директории
+sub _find_file {
+    my ( $filename, $dir ) = @_;
+    if ( -e $dir . $filename ) {
+        return $dir . $filename;
+    }
+    else {
+        print "Cannot find file in directory: $!";
+    }
+}
+
+#Метод подсчета количества слов в файле
+
+    sub _total_words {
+        my ( @array ) = @_;
+        my $count = 0;
+
+        foreach my $element ( @array ) {
+            my @words = split /\s+/, $element;
+            $count += scalar @words;
+        }
+        print( " Количество слов $count " );
+    }
+
+#Метод - слова повторяются больше 2 раз и выводит их в порядке убывания с количеством упоминаний
+#Можно конечно объединить с методом _total_words, но я к тому, что в конечном итоге применить бы паттерн фасад)
+# и клиенту давать разный функционал
+
+sub _count_and_sort_repeated_words {
+    my ( @array ) = @_;
+    my %word_count;
+    foreach my $line ( @array ) {
+        foreach my $word ( split(/\s+/, lc($line)) ) {
+            $word_count{$word}++;
+        }
+    }
+
+    my @repeated_words;
+
+    foreach my $word ( keys %word_count ) {
+        if ( $word_count{$word} > 2 ) {
+            push @repeated_words, $word;
+        }
+    }
+    @repeated_words = sort {$word_count{$b} <=> $word_count{$a}} @repeated_words;
+    foreach my $word ( @repeated_words ) {
+        print "Слово '$word' повторяется $word_count{$word} раз.\n";
+    }
+}
+#проверка на вхождение
+sub _word_checker {
+    my ( $input_file ) = @_;
+    my @input_file_array = _read_config( $input_file );
+    my @bad_words = _read_config( $file_path );
+    my %bad_words = map { lc($_) => 1 } @bad_words;
+    foreach my $line ( @input_file_array ) {
+        foreach my $word ( split( ' ',$line) ) {
+            if ( exists $bad_words{$word} ) {
+                print "Обнаружено неприличное слово: $word\n";
+                return;
+            }
+        }
+    }
+}
+#Вызовы методов, можно и по другому)
+
+my @obscene_array = _read_config( $file_path );
+_find_file( $obscene_dictionary, $dir );
+_total_words( @obscene_array );
+_count_and_sort_repeated_words( @obscene_array );
+_word_checker( $input_file_path );
