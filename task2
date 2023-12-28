@@ -1,1 +1,29 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+# обьявил массив пользователей
+my @users_list = ("Alex", "John", "Sonya");
 
+# Принять один параметр через @ARGV это 1 часть задания
+# my $user_name = $ARGV[0];
+
+# Принять через %ENV
+my $user_name = $ENV{user_name};
+my $user_password = $ENV{user_password};
+
+chomp $user_name;
+# Инициализируем переменную для проверки существования пользователя
+my $find = 0;
+
+for my $user (@users_list) {
+    if ($user eq $user_name) {
+        $find = 1;
+        last;
+    }
+}
+# Вывод сообщений после цикла
+if ($find == 1) {
+    print "Добро пожаловать, $user_name!, Твой пароль $user_password\n"; #по заданию добавил вывод пароля
+}
+else {
+    print "Ты кто такой, $user_name?!\n";}
