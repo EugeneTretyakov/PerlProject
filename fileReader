@@ -1,1 +1,19 @@
+#!/usr/bin/perl
+use strict;
+use warnings FATAL => 'all';
 
+my $conf_path = '/Users/evgenijtretakov/PerlProject/tasks/conf.ini';
+
+sub _read_conf {
+    my ($file_name) = @_;
+    open(my $fh, '<', $file_name) or die "Cannot open file: $!";
+    my @lines = <$fh>;
+    close $fh;
+    return @lines;
+}
+#вызов метода
+my @conf_lines = _read_conf($conf_path);
+#вывод
+foreach my $line (@conf_lines) {
+    print $line;
+}
