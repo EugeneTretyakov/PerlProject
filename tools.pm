@@ -1,6 +1,6 @@
 package tools;
 use strict;
-use warnings FATAL => 'all';
+use warnings;
 
 sub read_config {
     my ( $filename ) = @_;
