@@ -1,1 +1,10 @@
+#!/usr/bin/perl
+use strict;
+use warnings FATAL => 'all';
+use lib '/Users/evgenijtretakov/PerlProject/tasks/tools';
+use tools;
 
+our $conf_path = '/Users/evgenijtretakov/PerlProject/tasks/tools/conf.ini';
+
+# Вызов функции из модуля
+tools::read_config( $conf_path );
