@@ -1,1 +1,42 @@
+use strict;
+use warnings;
 
+#путь
+my $conf_path = '/Users/evgenijtretakov/PerlProject/tasks/resolved/conf.ini';
+
+sub _read_config {
+    my ( $filename ) = @_;
+
+    my %config;#хэш для хранения значений
+
+    if ( open my $fh, '<', $filename ) {
+        while ( my $line = <$fh> ) {
+            chomp $line;
+            $line =~ s/\s+//g;  # пробелы на пустоту
+
+            if ( $line =~ m/^#/ ) {  # проверяем, если строка начинается с # то пропустим строку
+                next;  
+            }
+
+            my ( $key, $value ) = split( '=', $line, 2 );# разделяем строку по символу = и сохраняем $key и $value
+
+            if ( $key && $value ) {  # проверяем, что ключ и значение не пустые
+                $config{$key} = $value; #сохраняем ключ $key и значение $value в хэше %config
+            }
+        }
+        close $fh; #закрываем файл
+    } else {
+        print "Не удалось считать файл: '$filename'\n";
+    }
+
+    return %config;
+}
+
+# чтение файла конфигурации
+my %conf = _read_config( $conf_path );
+
+# вывод содержимого файла
+foreach my $key ( keys %conf ) {
+    my $value = $conf{$key};
+    print "$key = $value\n";
+}
