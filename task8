@@ -1,1 +1,15 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use lib '/Users/evgenijtretakov/PerlProject/tasks/tools';
+use tools;
 
+my( $action, $user_name, $password )= @ARGV;
+
+if ($action eq "log") {
+    tools::login( $user_name,$password );
+} elsif ($action eq "reg") {
+    my %clients =tools::reg_user( $user_name,$password );
+    tools::rewrite_config( %clients );
+}
+else {die "Тут может быть только 'log' или 'reg'.\n"};
