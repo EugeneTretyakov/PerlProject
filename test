@@ -1,1 +1,56 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use lib '/Users/evgenijtretakov/PerlProject/tasks/tools';
+use tools;
+# use Test::More tests => 12;
+use Test::More;
 
+my $conf_path = '/Users/evgenijtretakov/PerlProject/tasks/tools/conf.ini';
+my $fail_conf_path = '/Users/evgenijtretakov/PerlProject/tasks/tools.ini';
+my $RC_OK = 1;
+my $RC_ERROR = 0;
+
+# Вызываем функцию login с корректными данными
+is( tools::login('Alex','Rex1234!'),$RC_OK, 'Correct login' );
+
+# Вызываем функцию loin с некорректными данными
+is( tools::login( 'Alex','Password0000!'),$RC_ERROR, 'Incorrect login' );
+
+#Регистрация пользователя успешная
+ok( tools::reg_user( 'Alice','password1234!' ),'Registration Correct' );
+
+#Регистрация пользователя failed
+ok( tools::reg_user( 'Alex','Rex1234!' ),'Failed registration' );
+
+#Проверка user_name на валидность успешная
+is( tools::check_user_name( 'Alex' ),$RC_OK, "success user name" );
+
+#Проверка user_name на валидность fail
+is( tools::check_user_name( 'Alex!' ),$RC_ERROR, "fail user name" );
+
+#Проверка password на валидность успешная
+is( tools::check_user_password( 'Alex12555@' ),$RC_OK, "success password" );
+
+#Проверка password на валидность fail
+is( tools::check_user_password( 'Affffffffff' ),$RC_ERROR, "fail password" );
+
+
+#проверка наличия, чтения файла, возвращает ли hash
+ok( tools::read_config($conf_path ),'Хеш присутствует' );
+
+ok( !tools::read_config($fail_conf_path),'read_fail');
+
+#перезапись файла
+is( tools::rewrite_config( tools::read_config( $conf_path ) ),$RC_OK, 'rewrite_ok' );
+
+#удаление пользователя успешное
+is( tools::del_user('Alex'), $RC_OK, "delete user success" );
+
+#удаление пользователя fail
+is( tools::del_user('A'), $RC_ERROR, "delete user fail" );
+
+#help
+is( tools::help(),$RC_OK,"help message\n" );
+
+done_testing();
